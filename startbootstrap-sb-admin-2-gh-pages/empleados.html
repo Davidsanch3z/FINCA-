@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleados - Admin Fincas</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="h3 mb-4 text-gray-800">Agregar Empleado</h1>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Nuevo Empleado</h6>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="idEmpleado">ID Empleado</label>
+                            <input type="text" class="form-control" id="idEmpleado" placeholder="ID único">
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label for="nombreCompleto">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombreCompleto" placeholder="Nombre y apellidos">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="documento">Documento de identidad</label>
+                            <input type="text" class="form-control" id="documento" placeholder="Cédula o Pasaporte">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="foto">Foto (opcional)</label>
+                            <input type="file" class="form-control-file" id="foto">
+                        </div>
+                    </div>
+                    <hr>
+                    <h6 class="text-primary">Datos de contacto</h6>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" placeholder="Dirección">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="telefono">Teléfono(s)</label>
+                            <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="correo">Correo electrónico</label>
+                            <input type="email" class="form-control" id="correo" placeholder="Correo">
+                        </div>
+                    </div>
+                    <hr>
+                    <h6 class="text-primary">Información laboral</h6>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="fechaIngreso">Fecha de ingreso</label>
+                            <input type="date" class="form-control" id="fechaIngreso">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="cargo">Cargo o puesto</label>
+                            <input type="text" class="form-control" id="cargo" placeholder="Cargo o puesto">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="departamento">Departamento o área</label>
+                            <input type="text" class="form-control" id="departamento" placeholder="Departamento">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="supervisor">Supervisor directo</label>
+                            <input type="text" class="form-control" id="supervisor" placeholder="Supervisor">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="tipoContrato">Tipo de contrato</label>
+                            <select class="form-control" id="tipoContrato">
+                                <option value="fijo">Fijo</option>
+                                <option value="indefinido">Indefinido</option>
+                                <option value="temporal">Temporal</option>
+                                <option value="freelance">Freelance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Empleado</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tabla de registros recientes -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Registros recientes</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTableEmpleados" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Nombre</th>
+                                <th>Cédula</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Cargo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for empleado in empleados %}
+                            <tr>
+                                <td>
+                                    {% if empleado.foto %}
+                                        <img src="/uploads/{{ empleado.foto }}" alt="Empleado" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+                                    {% else %}
+                                        <img src="img/undraw_profile_1.svg" alt="Empleado" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+                                    {% endif %}
+                                </td>
+                                <td>{{ empleado.nombre }}</td>
+                                <td>{{ empleado.cedula }}</td>
+                                <td>{{ empleado.telefono }}</td>
+                                <td>{{ empleado.correo }}</td>
+                                <td>{{ empleado.cargo }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

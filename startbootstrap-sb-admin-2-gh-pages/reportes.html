@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes - Admin Fincas</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="h3 mb-4 text-gray-800">Generación de Reportes</h1>
+        <!-- Filtros de reporte -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Filtros</h6>
+            </div>
+            <div class="card-body">
+                <form class="form-row align-items-end">
+                    <div class="form-group col-md-3">
+                        <label for="fechaInicio">Fecha inicio</label>
+                        <input type="date" class="form-control" id="fechaInicio">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="fechaFin">Fecha fin</label>
+                        <input type="date" class="form-control" id="fechaFin">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="tipoReporte">Tipo</label>
+                        <select class="form-control" id="tipoReporte">
+                            <option value="todos">Todos</option>
+                            <option value="gastos">Gastos</option>
+                            <option value="ingresos">Ingresos</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="fincaReporte">Finca</label>
+                        <select class="form-control" id="fincaReporte">
+                            <option value="todas">Todas</option>
+                            <option>La Esperanza</option>
+                            <option>El Progreso</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="categoriaReporte">Categoría</label>
+                        <select class="form-control" id="categoriaReporte">
+                            <option value="todas">Todas</option>
+                            <option>Insumos</option>
+                            <option>Personal</option>
+                            <option>Venta</option>
+                            <option>Servicios</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 mt-3">
+                        <button type="button" class="btn btn-primary">Generar Reporte</button>
+                        <button type="button" class="btn btn-success ml-2">Exportar a Excel</button>
+                        <button type="button" class="btn btn-danger ml-2">Exportar a PDF</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Resumen de totales -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Gastos</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$1,050.00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Ingresos</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$2,400.00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Saldo</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$1,350.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Gráficos -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Gráfico de Totales por Categoría</h6>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartCategorias"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Gráfico de Totales por Finca</h6>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chartFincas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tabla de resultados -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Resultados</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTableReportes" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Categoría</th>
+                                <th>Descripción</th>
+                                <th>Monto</th>
+                                <th>Finca</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="img/undraw_profile_1.svg" alt="Comprobante" style="width:60px; height:60px; object-fit:cover; border-radius:8px;"></td>
+                                <td>2025-07-08</td>
+                                <td>Gasto</td>
+                                <td>Insumos</td>
+                                <td>Compra de fertilizante</td>
+                                <td>$350.00</td>
+                                <td>La Esperanza</td>
+                            </tr>
+                            <tr>
+                                <td><img src="img/undraw_profile_2.svg" alt="Comprobante" style="width:60px; height:60px; object-fit:cover; border-radius:8px;"></td>
+                                <td>2025-07-07</td>
+                                <td>Ingreso</td>
+                                <td>Venta</td>
+                                <td>Venta de café</td>
+                                <td>$1,200.00</td>
+                                <td>El Progreso</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Tabla de registros recientes -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Registros recientes</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTableReportes" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Categoría</th>
+                                <th>Descripción</th>
+                                <th>Monto</th>
+                                <th>Finca</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mov in movimientos %}
+                            <tr>
+                                <td>
+                                    {% if mov.foto %}
+                                        <img src="/uploads/{{ mov.foto }}" alt="Comprobante" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+                                    {% else %}
+                                        <img src="img/undraw_profile_1.svg" alt="Comprobante" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+                                    {% endif %}
+                                </td>
+                                <td>{{ mov.fecha }}</td>
+                                <td>{{ mov.tipo }}</td>
+                                <td>{{ mov.categoria }}</td>
+                                <td>{{ mov.descripcion }}</td>
+                                <td>${{ mov.monto }}</td>
+                                <td>{{ mov.finca }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function actualizarResumen() {
+            let totalGastos = 0;
+            let totalIngresos = 0;
+            const filas = document.querySelectorAll('#dataTableReportes tbody tr');
+            filas.forEach(fila => {
+                const tipo = fila.children[2].textContent.trim();
+                const monto = parseFloat(fila.children[5].textContent.replace('$','').replace(',','')) || 0;
+                if (tipo === 'Gasto') {
+                    totalGastos += monto;
+                } else if (tipo === 'Ingreso') {
+                    totalIngresos += monto;
+                }
+            });
+            document.querySelector('.card.border-left-primary .h5').textContent = `$${totalGastos.toFixed(2)}`;
+            document.querySelector('.card.border-left-success .h5').textContent = `$${totalIngresos.toFixed(2)}`;
+            document.querySelector('.card.border-left-info .h5').textContent = `$${(totalIngresos-totalGastos).toFixed(2)}`;
+        }
+        // Actualizar al cargar y cuando se genere el reporte
+        document.addEventListener('DOMContentLoaded', actualizarResumen);
+        document.querySelector('.btn.btn-primary').addEventListener('click', function(){
+            // Aquí iría la lógica para filtrar/generar el reporte
+            actualizarResumen();
+        });
+    </script>
+</body>
+</html>
